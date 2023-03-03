@@ -1,4 +1,5 @@
 import datetime
+from collections import OrderedDict
 
 import openpyxl
 from openpyxl.styles import PatternFill, Font, NamedStyle, fills, Alignment
@@ -11,13 +12,13 @@ class ExcelCreator:
     @staticmethod
     def _validate_input_data(input_data: list, record_type: str):
         if record_type == 'json':
-            record_type_obj = dict
+            record_type_obj = [dict, OrderedDict]
         elif record_type == 'list':
-            record_type_obj = list
+            record_type_obj = [list]
         else:
             raise Exception("record_type must be json or list")
         if isinstance(input_data, list):
-            if input_data and not all(type(item) == record_type_obj for item in input_data):
+            if input_data and not all([type(item) in record_type_obj for item in input_data]):
                 raise TypeError(f'All items of input data should be the same type of {record_type}')
             return input_data
         raise TypeError('Input data should be a list')
@@ -41,7 +42,7 @@ class ExcelCreator:
 
     @staticmethod
     def add_sheet(workbook: openpyxl.Workbook, sheet_name: str) -> openpyxl.Workbook:
-        workbook.create_sheet(title=sheet_name)
+        workbook.create_sheet(title=sheet_name, index=0)
         return workbook
 
     def write_data_to_sheet(self, workbook: openpyxl.Workbook, sheet_name: str, data: list) -> openpyxl.Workbook:
@@ -54,8 +55,6 @@ class ExcelCreator:
         worksheet = workbook.get_sheet_by_name(name=sheet_name)
 
         # compute the range of cells to write
-        # min_col, min_row, max_col, max_row = range_boundaries(
-        #     f"A1:{coordinate_from_string('A1')[0] + str(len(data[0]) - 1)}{len(data)}")
         start_cell = "A1"
         end_cell = coordinate_from_string(start_cell)[0] + str(len(data[0]) - 1)
         range_string = f"{start_cell}:{end_cell}{len(data)}"
@@ -115,6 +114,6 @@ class ExcelCreator:
         for cell in sheet[1]:
             cell.style = header_style
         for col in sheet.columns:
-            col_width = 30
+            col_width = 25
             sheet.column_dimensions[col[0].column_letter].width = col_width
         return workbook
