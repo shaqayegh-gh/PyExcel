@@ -62,7 +62,7 @@ class ExcelCreator:
 
         style = self.get_table_default_style()
         # write the data in batches
-        batch_size = 300
+        batch_size = 1000
         for i in range(0, len(data), batch_size):
             rows = data[i:i + batch_size]
             for j, row in enumerate(rows):
