@@ -1,4 +1,5 @@
 import datetime
+from collections import OrderedDict
 
 from xlwt import Workbook, XFStyle, Font, Pattern
 
@@ -20,13 +21,13 @@ class ExcelCreator:
     @staticmethod
     def _validate_input_data(input_data: list, record_type: str):
         if record_type == 'json':
-            record_type_obj = dict
+            record_type_obj = [dict, OrderedDict]
         elif record_type == 'list':
-            record_type_obj = list
+            record_type_obj = [list]
         else:
             raise Exception("record_type must be json or list")
         if isinstance(input_data, list):
-            if input_data and not all(type(item) == record_type_obj for item in input_data):
+            if input_data and not all([type(item) in record_type_obj for item in input_data]):
                 raise TypeError(f'All items of input data should be the same type of {record_type}')
             return input_data
         raise TypeError('Input data should be a list')
@@ -62,7 +63,7 @@ class ExcelCreator:
         """
         worksheet = workbook.get_sheet(sheet=sheet_name)
         for row_index, row in enumerate(data):
-            worksheet.write(row_index, row)
+            worksheet.write(row_index, row)  # TODO: NOT  COMPLETED
         # data_str = "\n".join("\t".join(str(cell) for cell in row) for row in data)
         # worksheet = workbook.get_sheet(sheet=sheet_name)
         # worksheet.write(0, 0, data_str)
