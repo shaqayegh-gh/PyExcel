@@ -6,5 +6,5 @@ setup(
     author_email='ghorbanpoor.shaghayegh@gmail.com',
     packages=find_packages(include=['pyexcel', 'pyexcel.*']),
     description='This is a package for creating excel',
-    requires=['xlwt==1.3.0', 'pytest', 'openpyxl==3.1.1', 'django']
+    install_requires=['xlwt==1.3.0', 'pytest', 'openpyxl==3.1.1', 'django']
 )
