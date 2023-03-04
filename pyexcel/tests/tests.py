@@ -34,3 +34,8 @@ class TestUser:
         excel_obj = OpenPyExcelCreator()
         workbook = excel_obj.create_workbook_single_sheet(headers_dict=headers, input_data=data)
         workbook.save(f'openpy_test.xlsx')
+        response = excel_obj.return_excel_template(workbook=workbook, excel_name='test_template')
+
+        # save the response content to a file on disk
+        with open('test_template.xlsx', 'wb') as f:
+            f.write(response.content)

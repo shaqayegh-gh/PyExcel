@@ -1,5 +1,7 @@
 from collections import OrderedDict
 
+from django.http import HttpResponse
+
 
 class BaseExcelCreator:
     @staticmethod
@@ -46,3 +48,10 @@ class BaseExcelCreator:
         # add headers to first index of data list
         validated_data.insert(0, list(headers_dict.values()))
         return validated_data
+
+    @classmethod
+    def return_excel_template(cls, workbook, excel_name: str):
+        response = HttpResponse(content_type='application/ms-excel')
+        response['Content-Disposition'] = f'attachment; filename={excel_name}.xlsx'
+        workbook.save(response)
+        return response
