@@ -174,3 +174,5 @@ Training
 Blog
 About
 PyExcel/.gitignore at main · shaqayegh-gh/PyExcel
+*.xlsx
+*.xls
