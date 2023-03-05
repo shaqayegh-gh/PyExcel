@@ -162,7 +162,7 @@ dmypy.json
 Footer
 © 2023 GitHub, Inc.
 Footer navigation
-Terms
+Terms                                                                                                                                                                                                                                                                                   
 Privacy
 Security
 Status
@@ -176,3 +176,5 @@ About
 PyExcel/.gitignore at main · shaqayegh-gh/PyExcel
 *.xlsx
 *.xls
+.idea
+.vscode
