@@ -2,7 +2,7 @@ import datetime
 
 from xlwt import Workbook, XFStyle, Font, Pattern
 
-from pyexcel.base import BaseExcelCreator
+from pyexcel.main import BaseExcelCreator
 
 
 def col_width(data):

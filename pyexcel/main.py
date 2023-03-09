@@ -1,7 +1,9 @@
 from collections import OrderedDict
 
 from django.http import HttpResponse
-
+from rest_framework.renderers import JSONRenderer
+from django.http import StreamingHttpResponse
+import json
 
 class BaseExcelCreator:
     @staticmethod
@@ -55,3 +57,26 @@ class BaseExcelCreator:
         response['Content-Disposition'] = f'attachment; filename={excel_name}.xlsx'
         workbook.save(response)
         return response
+
+
+class StreamQueryset:
+    """
+    using streaming for serialzing large querysets
+    """
+    def __init__(self, queryset, serializer_class):
+        self.queryset = queryset
+        self.serializer_class = serializer_class
+
+    def stream_queryset(self):
+        for obj in self.queryset.iterator():
+            serializer = self.serializer_class(obj)
+            yield JSONRenderer().render(serializer.data)
+
+    def __call__(self):
+        """
+        convert json stream to list of jsons
+        """
+        json_stream = self.stream_queryset()
+        json_list = [json.loads(line) for line in json_stream]
+        return json_list
+

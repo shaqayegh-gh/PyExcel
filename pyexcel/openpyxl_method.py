@@ -7,7 +7,7 @@ from openpyxl.styles.colors import Color
 from openpyxl.utils import range_boundaries
 from openpyxl.utils.cell import coordinate_from_string
 
-from pyexcel.base import BaseExcelCreator
+from pyexcel.main import BaseExcelCreator
 
 
 class OpenPyExcelCreator(BaseExcelCreator):
